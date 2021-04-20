@@ -3,6 +3,7 @@ using System.ComponentModel;
 //using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using WixSharp;
 using WixSharp.Forms;
@@ -13,6 +14,9 @@ namespace WixSharp_SysInternals
     {
         static void Main()
         {
+            // TLS 1.2 at least required by sysinternals.com in 2021
+            // Not sure if the .NET Framework we are running on encompasses it, so...
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
             // Get Zip File from official site
             string remoteURL = @"https://download.sysinternals.com/files/SysinternalsSuite.zip";
@@ -24,8 +28,8 @@ namespace WixSharp_SysInternals
             // Unzip
             string zipDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
             Console.WriteLine("Extracting File \"{0}\" to \"{1}\" .......\n\n", zipFile, zipDir);
-              ZipFile.ExtractToDirectory(zipFile, zipDir);
-
+              ZipFile.ExtractToDirectory(zipFile, zipDir,true);
+            
             // Newest file to create a version number from
             System.IO.DirectoryInfo directory = new System.IO.DirectoryInfo(zipDir);
             System.IO.FileInfo newestFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
