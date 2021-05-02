@@ -28,7 +28,7 @@ namespace WixSharp_SysInternals
             // Unzip
             string zipDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
             Console.WriteLine("Extracting File \"{0}\" to \"{1}\" .......\n\n", zipFile, zipDir);
-              ZipFile.ExtractToDirectory(zipFile, zipDir,true);
+              ZipFile.ExtractToDirectory(zipFile, zipDir,System.Text.Encoding.Default);
             
             // Newest file to create a version number from
             System.IO.DirectoryInfo directory = new System.IO.DirectoryInfo(zipDir);
